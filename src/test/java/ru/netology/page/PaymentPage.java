@@ -58,6 +58,8 @@ public class PaymentPage {
         fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
         fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
         fieldCvc.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
+
+
     }
 
     public void emptyFieldNotification() {
@@ -68,4 +70,8 @@ public class PaymentPage {
         fieldCardOwner.$(".input__sub").shouldBe(Condition.visible, Duration.ofSeconds(15)).shouldHave(ownText("Поле обязательно для заполнения"));
         fieldCvc.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
     }
+
+
+
+
 }
