@@ -1,5 +1,6 @@
 package ru.netology.page;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
 
@@ -64,7 +65,7 @@ public class PaymentPage {
         fieldCard.$(".input__sub").shouldBe(visible).shouldHave(text("Поле обязательно для заполнения"));
         fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(text("Поле обязательно для заполнения"));
         fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
-        fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
+        fieldCardOwner.$(".input__sub").shouldBe(Condition.visible, Duration.ofSeconds(15)).shouldHave(ownText("Поле обязательно для заполнения"));
         fieldCvc.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
     }
 }

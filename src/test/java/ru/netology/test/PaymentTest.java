@@ -51,7 +51,7 @@ public class PaymentTest {
     }
 
     // допилить новые кейсы
-/*
+
     @Test
     void shouldGetNotificationInvalidCard() {
         val cardInfo = new DataHelper().getInvalidCardInfo("approved");
@@ -74,5 +74,5 @@ public class PaymentTest {
         paymentPage.emptyFieldNotification();
     }
 
- */
+
 }
