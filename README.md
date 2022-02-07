@@ -1,5 +1,38 @@
-### Для запуска тестов необходимо:
+### 
+
+
+# Diplom
+
+Дипломный проект представляет собой автоматизацию тестирования комплексного сервиса, взаимодействующего с СУБД и API Банка.
+
+## Начало работы
+
+1. Запустить Idea.
+2. В терминале Idea указать команду "clone https://github.com/l0197d/Diplom.git".
+3. Дождаться окончания закрузки и индексации файлов.
+4. Выполнить шаги описанные в разделе "Установка и запуск."
+
+### Prerequisites
+Для работы с проектом установить:
+1. IntelliJ IDEA
+2. Docker Desktop
+3. Расширения для IntelliJ IDEA:
+- Docker
+- DataBaseTool and Sql
+- Node.js
+
+
+
+### Установка и запуск
+
+Для запуска тестов необходимо:
 1. Запустить контейнеры командой 'docker-compose up -d'
 2. Запустить приложение командой 'java -jar ./artifacts/aqa-shop.jar' (по умолчанию приложение работает с базой MySQl. Для работы с базой PostgreSQL запустить приложение командой 'java -jar ./artifacts/aqa-shop.jar --spring.datasource.url=jdbc:postgresql://localhost:5432/app')
 3. Запустить автотесты командой './gradlew clean test' . (Для работы с базой PostgreSQL запустить автотесты командой './gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app'.
 4. Для создания отчета Allure запустить команду './gradlew allureReport' и './gradlew allureServe'.
+
+
+## Лицензия
+
+ОС: Windows 10 х64.
+версия Java: 11.0.9.1

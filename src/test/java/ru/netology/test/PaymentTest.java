@@ -73,6 +73,4 @@ public class PaymentTest {
         val paymentPage = new OrderPage().goToPayment();
         paymentPage.emptyFieldNotification();
     }
-
-
 }
