@@ -21,7 +21,9 @@ public class DbHelper {
         Properties properties = new Properties();
         try (InputStream is = DbHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
             properties.load(is);
-        } catch(IOException ex) { ex.printStackTrace(); }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         return properties;
     }
 

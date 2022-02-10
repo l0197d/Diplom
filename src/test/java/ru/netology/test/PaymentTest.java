@@ -3,7 +3,6 @@ package ru.netology.test;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.*;
 import io.qameta.allure.selenide.AllureSelenide;
-import lombok.val;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.DbHelper;
@@ -37,8 +36,8 @@ public class PaymentTest {
         // Тест номер 1
 
     void shouldPaymentApprovedCard() {
-        val cardInfo = new DataHelper().getValidCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getValidCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.approved();
         assertEquals("APPROVED", new DbHelper().getPaymentStatus());
@@ -52,8 +51,8 @@ public class PaymentTest {
     @Test
 // Тест номер 2
     void shouldPaymentDeclinedCard() {
-        val cardInfo = new DataHelper().getValidCardInfo("declined");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getValidCardInfo("declined");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.declined();
         assertEquals("DECLINED", new DbHelper().getPaymentStatus());
@@ -66,10 +65,10 @@ public class PaymentTest {
     @Test
 // Тест номер 3
     void shouldGetNotificationWrongNumberCard() {
-        val cardInfo = new DataHelper().getInvalidFormatCardInfo("4444 4444 4444 4443");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidFormatCardInfo("4444 4444 4444 4443");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.invalidCardNotification();
+        paymentPage.declined();
     }
 
     @Epic(value = "Functional Negative test")
@@ -78,10 +77,10 @@ public class PaymentTest {
     @Test
 // Тест номер 4
     void shouldGetInvalidName() {
-        val cardInfo = new DataHelper().getInvalidNameCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidNameCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.invalidCardNotification();
+        paymentPage.wrongName();
     }
 
     @Epic(value = "Functional Negative test")
@@ -90,10 +89,10 @@ public class PaymentTest {
     @Test
 // Тест номер 5
     void shouldGetInvalidMonth() {
-        val cardInfo = new DataHelper().getInvalidMonthCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidMonthCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.invalidCardNotification();
+        paymentPage.wrongMonth();
     }
 
     @Epic(value = "Functional Negative test")
@@ -102,11 +101,12 @@ public class PaymentTest {
     @Test
 // Тест номер 6
     void shouldGetInvalidYear() {
-        val cardInfo = new DataHelper().getInvalidYearCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidYearCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.invalidCardNotification();
+        paymentPage.wrongYear();
     }
+
 
     @Epic(value = "Functional Negative test")
     @Feature(value = "Невалидные значения")
@@ -114,10 +114,10 @@ public class PaymentTest {
     @Test
 // Тест номер 7
     void shouldGetInvalidCVC() {
-        val cardInfo = new DataHelper().getInvalidCVCCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidCVCCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.wrongFormatNotification();
+        paymentPage.wrongCVC();
     }
 
 
@@ -127,10 +127,10 @@ public class PaymentTest {
     @Test
 // Тест номер 8
     void shouldGetInvalidMonthZero() {
-        val cardInfo = new DataHelper().getInvalidMonthZeroCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidMonthZeroCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.wrongFormatNotification();
+        paymentPage.wrongMonth();
     }
 
     @Epic(value = "Functional Negative test")
@@ -139,10 +139,10 @@ public class PaymentTest {
     @Test
 // Тест номер 9
     void shouldGetInvalidYearZero() {
-        val cardInfo = new DataHelper().getInvalidYearZeroCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidYearZeroCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.wrongFormatNotification();
+        paymentPage.wrongYear();
     }
 
     @Epic(value = "Functional Negative test")
@@ -151,10 +151,10 @@ public class PaymentTest {
     @Test
 // Тест номер 10
     void shouldGetInvalidCVCZero() {
-        val cardInfo = new DataHelper().getInvalidCVCZeroCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidCVCZeroCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.wrongFormatNotification();
+        paymentPage.wrongCVC();
     }
 
     @Epic(value = "Functional Negative test")
@@ -163,10 +163,10 @@ public class PaymentTest {
     @Test
 // Тест номер 11
     void shouldGetNotificationZeroNumberCard() {
-        val cardInfo = new DataHelper().getInvalidFormatCardInfo("0000 0000 0000 0000");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidFormatCardInfo("0000 0000 0000 0000");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.wrongFormatNotification();
+        paymentPage.wrongNumberCard();
     }
 
     @Epic(value = "Functional Negative test")
@@ -175,10 +175,10 @@ public class PaymentTest {
     @Test
 // Тест номер 12
     void shouldGetInvalidEmptyYear() {
-        val cardInfo = new DataHelper().getInvalidYearEmptyCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidYearEmptyCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.emptyFieldNotification();
+        paymentPage.emptyField();
     }
 
 
@@ -188,10 +188,10 @@ public class PaymentTest {
     @Test
 // Тест номер 13
     void shouldGetInvalidEmptyCVC() {
-        val cardInfo = new DataHelper().getInvalidCVCEmptyCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidCVCEmptyCardInfo("approved");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.emptyFieldNotification();
+        paymentPage.emptyField();
     }
 
     @Epic(value = "Functional Negative test")
@@ -200,10 +200,10 @@ public class PaymentTest {
     @Test
 // Тест номер 14
     void shouldGetNotificationEmptyNumberCard() {
-        val cardInfo = new DataHelper().getInvalidFormatCardInfo("    ");
-        val paymentPage = new OrderPage().goToPayment();
+        var cardInfo = new DataHelper().getInvalidFormatCardInfo("    ");
+        var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.emptyFieldNotification();
+        paymentPage.emptyField();
     }
 
 
@@ -216,30 +216,8 @@ public class PaymentTest {
         var cardInfo = new DataHelper().getInvalidMonthEmptyCardInfo("approved");
         var paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
-        paymentPage.emptyFieldNotification();
+        paymentPage.emptyField();
     }
 
 
-
-
-
-/*
-
-    @Test
-    void shouldGetNotificationInvalidCard() {
-        val cardInfo = new DataHelper().getInvalidCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
-        paymentPage.payment(cardInfo);
-        paymentPage.invalidCardNotification();
-    }
-
-
-
-    @Test
-    void shouldGetNotificationEmptyFields() {
-        val paymentPage = new OrderPage().goToPayment();
-        paymentPage.emptyFieldNotification();
-    }
-
- */
 }

@@ -6,6 +6,7 @@ import ru.netology.data.DataHelper;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
@@ -20,10 +21,15 @@ public class CreditPage {
     private SelenideElement proceedButton = $(".form-field button");
     private SelenideElement approvedNotification = $(".notification_status_ok");
     private SelenideElement declinedNotification = $(".notification_status_error");
-    private SelenideElement fieldCard = $$(".input__top").find(text("Номер карты")).parent();
-    private SelenideElement fieldMonth = $$(".input__top").find(text("Месяц")).parent();
-    private SelenideElement fieldYear = $$(".input__top").find(text("Год")).parent();
-    private SelenideElement fieldCvc = $$(".input__top").find(text("CVC/CVV")).parent();
+    private SelenideElement wrongMonthError = $(withText("Неверно указан срок действия карты"));
+    private SelenideElement wrongYearError = $(withText("Истёк срок действия карты"));
+    private SelenideElement wrongNameError = $(withText("Неверно указано имя владельца карты"));
+    private SelenideElement emptyFieldError = $(withText("Поле обязательно для заполнения"));
+    private SelenideElement wrongCardNumberError = $(withText("Неверный формат"));
+    private SelenideElement wrongCVCError = $(withText("Неверный формат"));
+
+    private SelenideElement request = $(withText("Отправляем запрос"));
+
 
     public CreditPage() {
         heading.shouldBe(visible);
@@ -46,26 +52,34 @@ public class CreditPage {
         declinedNotification.shouldBe(visible, Duration.ofSeconds(15));
     }
 
-    public void invalidCardNotification() {
-        fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверно указан срок действия карты"));
-        fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Истёк срок действия карты"));
-        fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
+    public void wrongMonth() {
+        request.shouldNotBe(visible, Duration.ofSeconds(4));
+        wrongMonthError.shouldBe(visible, Duration.ofSeconds(3));
     }
 
-    public void wrongFormatNotification() {
-        fieldCard.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
-        fieldCvc.$(".input__sub").shouldBe(visible).shouldHave(ownText("Неверный формат"));
+    public void wrongYear() {
+        request.shouldNotBe(visible, Duration.ofSeconds(4));
+        wrongYearError.shouldBe(visible, Duration.ofSeconds(3));
     }
 
-    public void emptyFieldNotification() {
-        proceedButton.click();
-        fieldCard.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
-        fieldMonth.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
-        fieldYear.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
-        fieldCardOwner.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
-        fieldCvc.$(".input__sub").shouldBe(visible).shouldHave(ownText("Поле обязательно для заполнения"));
+    public void wrongName() {
+        request.shouldNotBe(visible, Duration.ofSeconds(4));
+        wrongNameError.shouldBe(visible, Duration.ofSeconds(3));
+    }
+
+    public void wrongCVC() {
+        request.shouldNotBe(visible, Duration.ofSeconds(4));
+        wrongCVCError.shouldBe(visible, Duration.ofSeconds(3));
+    }
+
+    public void wrongNumberCard() {
+        request.shouldNotBe(visible, Duration.ofSeconds(4));
+        wrongCardNumberError.shouldBe(visible, Duration.ofSeconds(3));
+    }
+
+
+    public void emptyField() {
+        request.shouldNotBe(visible, Duration.ofSeconds(4));
+        emptyFieldError.shouldBe(visible, Duration.ofSeconds(3));
     }
 }

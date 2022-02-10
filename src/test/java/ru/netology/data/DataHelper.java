@@ -53,54 +53,50 @@ public class DataHelper {
         return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), generateOwnerName(), generateCvc());
     }
 
-    public CardInfo getInvalidCardNumberInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "25", "Ivanov Ivan", generateCvc());
-    }
-
 
     public CardInfo getInvalidNameCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "25", "Иванов Иван", generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), "Иванов Иван", generateCvc());
     }
 
     public CardInfo getInvalidMonthCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "13", "25", "Ivanov Ivan", generateCvc());
+        return new CardInfo(getCardNumber(card), "13", generateYear(), generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidYearCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "32", "Ivanov Ivan", generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), "32", generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidCVCCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "25", "Ivanov Ivan", "99");
+        return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), generateOwnerName(), "99");
     }
 
     public CardInfo getInvalidMonthZeroCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "00", "25", "Ivanov Ivan", generateCvc());
+        return new CardInfo(getCardNumber(card), "00", generateYear(), generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidYearZeroCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "00", "Ivanov Ivan", generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), "00", generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidCVCZeroCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "25", "Ivanov Ivan", "00");
+        return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), generateOwnerName(), "00");
     }
 
     public CardInfo getInvalidFormatCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "25", "Ivanov Ivan", generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), generateOwnerName(), generateCvc());
     }
 
 
     public CardInfo getInvalidYearEmptyCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", " ", "Ivanov Ivan", generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), " ", generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidMonthEmptyCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "  ", "25", "Ivanov Ivan", generateCvc());
+        return new CardInfo(getCardNumber(card), "  ", generateYear(), generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidCVCEmptyCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "05", "25", "Ivanov Ivan", "  ");
+        return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), generateOwnerName(), "  ");
     }
 
 
