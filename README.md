@@ -38,3 +38,5 @@
 
 ОС: Windows 10 х64.
 версия Java: 11.0.9.1
+
+## [Раздел с документацией](https://github.com/l0197d/Diplom/tree/master/docs)
