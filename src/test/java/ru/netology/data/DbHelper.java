@@ -13,27 +13,14 @@ import java.util.Properties;
 
 public class DbHelper {
     private final QueryRunner runner = new QueryRunner();
-    private Properties prop = prop();
     private final Connection conn = getConnect();
-
-
-    private Properties prop() {
-        Properties properties = new Properties();
-        try (InputStream is = DbHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
-            properties.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return properties;
-    }
-
 
     @SneakyThrows
     private Connection getConnect() {
         return DriverManager.getConnection(
-                prop.getProperty("spring.datasource.url"),
-                prop.getProperty("spring.datasource.username"),
-                prop.getProperty("spring.datasource.password")
+                System.getProperty("url"),
+                "app",
+                "pass"
         );
     }
 

@@ -5,10 +5,12 @@ import lombok.Value;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class DataHelper {
 
     private Faker faker = new Faker();
+    public static Faker fakerrus = new Faker(new Locale("ru"));
 
     private String getCardNumber(String card) {
         if (card.equalsIgnoreCase("approved")) {
@@ -23,15 +25,31 @@ public class DataHelper {
         String date = LocalDate.now().plusMonths(3).format(format);
         return date;
     }
+    private String generateFakeMonth() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM");
+        String FakeDate = LocalDate.now().plusMonths(12).format(format);
+        return FakeDate;
+    }
 
     private String generateYear() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yy");
         String date = LocalDate.now().plusYears(3).format(format);
         return date;
     }
+    private String generateFakeYear() {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yy");
+        String FakeYear = LocalDate.now().plusMonths(8).format(format);
+        return FakeYear;
+    }
 
     private String generateOwnerName() {
         String ownerName = faker.name().lastName().toUpperCase() + " " + faker.name().firstName().toUpperCase();
+        return ownerName;
+    }
+
+
+    private static String generateInvalidOwnerName() {
+        String ownerName = fakerrus.name().lastName().toUpperCase() + " " + fakerrus.name().firstName().toUpperCase();
         return ownerName;
     }
 
@@ -55,15 +73,15 @@ public class DataHelper {
 
 
     public CardInfo getInvalidNameCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), "Иванов Иван", generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), generateInvalidOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidMonthCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), "13", generateYear(), generateOwnerName(), generateCvc());
+        return new CardInfo(getCardNumber(card), generateFakeMonth(), generateYear(), generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidYearCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), generateMonth(), "32", generateOwnerName(), generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), generateFakeYear(), generateOwnerName(), generateCvc());
     }
 
     public CardInfo getInvalidCVCCardInfo(String card) {

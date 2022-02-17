@@ -3,6 +3,7 @@ package ru.netology.test;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.*;
 import io.qameta.allure.selenide.AllureSelenide;
+import lombok.val;
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.DbHelper;
@@ -36,11 +37,11 @@ public class PaymentTest {
         // Тест номер 1
 
     void shouldPaymentApprovedCard() {
-        var cardInfo = new DataHelper().getValidCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        val cardInfo = new DataHelper().getValidCardInfo("approved");
+        val paymentPage = new OrderPage().goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.approved();
-        assertEquals("APPROVED", new DbHelper().getPaymentStatus());
+        assertEquals("APPROVED",new DbHelper().getPaymentStatus());
         assertEquals(4500000, new DbHelper().getPaymentAmount());
         assertNull(new DbHelper().getCreditId());
     }
