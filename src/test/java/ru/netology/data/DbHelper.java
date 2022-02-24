@@ -5,18 +5,18 @@ import lombok.val;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
+
 
 public class DbHelper {
-    private final QueryRunner runner = new QueryRunner();
-    private final Connection conn = getConnect();
+    private final static QueryRunner runner = new QueryRunner();
+    private final static Connection conn = getConnect();
 
     @SneakyThrows
-    private Connection getConnect() {
+    private static Connection getConnect() {
+
         return DriverManager.getConnection(
                 System.getProperty("url"),
                 "app",
@@ -25,26 +25,45 @@ public class DbHelper {
     }
 
     @SneakyThrows
-    public String getPaymentStatus() {
-        val status = "SELECT status FROM payment_entity ORDER BY created DESC";
-        return runner.query(conn, status, new ScalarHandler<>());
+    public static String getLastPaymentStatus() {
+        val query = "SELECT status FROM payment_entity ORDER BY created DESC";
+        return runner.query(conn, query, new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public Integer getPaymentAmount() {
-        val amount = "SELECT amount FROM payment_entity ORDER BY created DESC";
-        return runner.query(conn, amount, new ScalarHandler<>());
+    public static String getLastPaymentId() {
+        val query = "SELECT transaction_id FROM payment_entity ORDER BY created DESC";
+        return runner.query(conn, query, new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public String getCreditRequestStatus() {
-        val status = "SELECT status FROM credit_request_entity ORDER BY created DESC";
-        return runner.query(conn, status, new ScalarHandler<>());
+    public static int getLastPaymentAmount() {
+        val query = "SELECT amount FROM payment_entity ORDER BY created DESC";
+        int amount = runner.query(conn, query, new ScalarHandler<>());
+        return (amount / 100);
     }
 
     @SneakyThrows
-    public String getCreditId() {
-        val id = "SELECT credit_id FROM order_entity ORDER BY created DESC";
-        return runner.query(conn, id, new ScalarHandler<>());
+    public static String getLastOrderPaymentId() {
+        val query = "SELECT payment_id FROM order_entity ORDER BY created DESC";
+        return runner.query(conn, query, new ScalarHandler<>());
+    }
+
+    @SneakyThrows
+    public static String getLastCreditStatus() {
+        val query = "SELECT status FROM credit_request_entity ORDER BY created DESC";
+        return runner.query(conn, query, new ScalarHandler<>());
+    }
+
+    @SneakyThrows
+    public static String getLastCreditId() {
+        val query = "SELECT bank_id FROM credit_request_entity ORDER BY created DESC";
+        return runner.query(conn, query, new ScalarHandler<>());
+    }
+
+    @SneakyThrows
+    public static String getLastOrderCreditId() {
+        val query = "SELECT credit_id FROM order_entity ORDER BY created DESC";
+        return runner.query(conn, query, new ScalarHandler<>());
     }
 }

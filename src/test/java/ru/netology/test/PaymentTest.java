@@ -12,8 +12,12 @@ import ru.netology.page.OrderPage;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static ru.netology.data.DbHelper.*;
 
 public class PaymentTest {
+
+    private int purchasePrice = 45000;
+
 
     @BeforeAll
     static void setUpAll() {
@@ -37,13 +41,13 @@ public class PaymentTest {
         // Тест номер 1
 
     void shouldPaymentApprovedCard() {
-        val cardInfo = new DataHelper().getValidCardInfo("approved");
-        val paymentPage = new OrderPage().goToPayment();
+        val cardInfo =DataHelper.getValidCardInfo("approved");
+        val paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.approved();
-        assertEquals("APPROVED",new DbHelper().getPaymentStatus());
-        assertEquals(4500000, new DbHelper().getPaymentAmount());
-        assertNull(new DbHelper().getCreditId());
+        assertEquals("APPROVED", getLastPaymentStatus());
+        assertEquals(getLastOrderPaymentId(), getLastPaymentId());
+        assertEquals(purchasePrice, getLastPaymentAmount());
     }
 
     @Epic(value = "Functional Negative test")
@@ -52,12 +56,12 @@ public class PaymentTest {
     @Test
 // Тест номер 2
     void shouldPaymentDeclinedCard() {
-        var cardInfo = new DataHelper().getValidCardInfo("declined");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getValidCardInfo("declined");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.declined();
-        assertEquals("DECLINED", new DbHelper().getPaymentStatus());
-        assertNull(new DbHelper().getCreditId());
+        assertEquals("DECLINED", DbHelper.getLastPaymentStatus());
+        assertNull(DbHelper.getLastOrderPaymentId());
     }
 
     @Epic(value = "Functional Negative test")
@@ -66,8 +70,8 @@ public class PaymentTest {
     @Test
 // Тест номер 3
     void shouldGetNotificationWrongNumberCard() {
-        var cardInfo = new DataHelper().getInvalidFormatCardInfo("4444 4444 4444 4443");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidFormatCardInfo("4444 4444 4444 4443");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.declined();
     }
@@ -78,8 +82,8 @@ public class PaymentTest {
     @Test
 // Тест номер 4
     void shouldGetInvalidName() {
-        var cardInfo = new DataHelper().getInvalidNameCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidNameCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongName();
     }
@@ -90,8 +94,8 @@ public class PaymentTest {
     @Test
 // Тест номер 5
     void shouldGetInvalidMonth() {
-        var cardInfo = new DataHelper().getInvalidMonthCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidMonthCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongMonth();
     }
@@ -102,8 +106,8 @@ public class PaymentTest {
     @Test
 // Тест номер 6
     void shouldGetInvalidYear() {
-        var cardInfo = new DataHelper().getInvalidYearCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidYearCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongYear();
     }
@@ -115,8 +119,8 @@ public class PaymentTest {
     @Test
 // Тест номер 7
     void shouldGetInvalidCVC() {
-        var cardInfo = new DataHelper().getInvalidCVCCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo =  DataHelper.getInvalidCVCCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongCVC();
     }
@@ -128,8 +132,8 @@ public class PaymentTest {
     @Test
 // Тест номер 8
     void shouldGetInvalidMonthZero() {
-        var cardInfo = new DataHelper().getInvalidMonthZeroCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidMonthZeroCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongMonth();
     }
@@ -140,8 +144,8 @@ public class PaymentTest {
     @Test
 // Тест номер 9
     void shouldGetInvalidYearZero() {
-        var cardInfo = new DataHelper().getInvalidYearZeroCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidYearZeroCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongYear();
     }
@@ -152,8 +156,8 @@ public class PaymentTest {
     @Test
 // Тест номер 10
     void shouldGetInvalidCVCZero() {
-        var cardInfo = new DataHelper().getInvalidCVCZeroCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidCVCZeroCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongCVC();
     }
@@ -164,8 +168,8 @@ public class PaymentTest {
     @Test
 // Тест номер 11
     void shouldGetNotificationZeroNumberCard() {
-        var cardInfo = new DataHelper().getInvalidFormatCardInfo("0000 0000 0000 0000");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidFormatCardInfo("0000 0000 0000 0000");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongNumberCard();
     }
@@ -176,8 +180,8 @@ public class PaymentTest {
     @Test
 // Тест номер 12
     void shouldGetInvalidEmptyYear() {
-        var cardInfo = new DataHelper().getInvalidYearEmptyCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidYearEmptyCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.emptyField();
     }
@@ -189,8 +193,8 @@ public class PaymentTest {
     @Test
 // Тест номер 13
     void shouldGetInvalidEmptyCVC() {
-        var cardInfo = new DataHelper().getInvalidCVCEmptyCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidCVCEmptyCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.emptyField();
     }
@@ -201,8 +205,8 @@ public class PaymentTest {
     @Test
 // Тест номер 14
     void shouldGetNotificationEmptyNumberCard() {
-        var cardInfo = new DataHelper().getInvalidFormatCardInfo("    ");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidFormatCardInfo("    ");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.emptyField();
     }
@@ -214,8 +218,8 @@ public class PaymentTest {
     @Test
 // Тест номер 15
     void shouldGetEmptyMonth() {
-        var cardInfo = new DataHelper().getInvalidMonthEmptyCardInfo("approved");
-        var paymentPage = new OrderPage().goToPayment();
+        var cardInfo = DataHelper.getInvalidMonthEmptyCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.emptyField();
     }
