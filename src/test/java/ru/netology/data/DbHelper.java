@@ -6,64 +6,57 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 
 public class DbHelper {
     private final static QueryRunner runner = new QueryRunner();
-    private final static Connection conn = getConnect();
+    private static Properties prop = prop();
+    private static final Connection conn = getConnect();
+
+
+    private static Properties prop() {
+        Properties properties = new Properties();
+        try (InputStream is = DbHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
+            properties.load(is);
+        } catch(IOException ex) { ex.printStackTrace(); }
+        return properties;
+    }
 
     @SneakyThrows
     private static Connection getConnect() {
-
         return DriverManager.getConnection(
-                System.getProperty("url"),
-                "app",
-                "pass"
+                prop.getProperty("spring.datasource.url"),
+                prop.getProperty("spring.datasource.username"),
+                prop.getProperty("spring.datasource.password")
         );
     }
 
     @SneakyThrows
-    public static String getLastPaymentStatus() {
-        val query = "SELECT status FROM payment_entity ORDER BY created DESC";
-        return runner.query(conn, query, new ScalarHandler<>());
+    public static String getPaymentStatus() {
+        val status = "SELECT status FROM payment_entity ORDER BY created DESC";
+        return runner.query(conn, status, new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public static String getLastPaymentId() {
-        val query = "SELECT transaction_id FROM payment_entity ORDER BY created DESC";
-        return runner.query(conn, query, new ScalarHandler<>());
+    public static Integer getPaymentAmount() {
+        val amount = "SELECT amount FROM payment_entity ORDER BY created DESC";
+        return runner.query(conn, amount, new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public static int getLastPaymentAmount() {
-        val query = "SELECT amount FROM payment_entity ORDER BY created DESC";
-        int amount = runner.query(conn, query, new ScalarHandler<>());
-        return (amount / 100);
+    public static String getCreditRequestStatus() {
+        val status = "SELECT status FROM credit_request_entity ORDER BY created DESC";
+        return runner.query(conn, status, new ScalarHandler<>());
     }
 
     @SneakyThrows
-    public static String getLastOrderPaymentId() {
-        val query = "SELECT payment_id FROM order_entity ORDER BY created DESC";
-        return runner.query(conn, query, new ScalarHandler<>());
-    }
-
-    @SneakyThrows
-    public static String getLastCreditStatus() {
-        val query = "SELECT status FROM credit_request_entity ORDER BY created DESC";
-        return runner.query(conn, query, new ScalarHandler<>());
-    }
-
-    @SneakyThrows
-    public static String getLastCreditId() {
-        val query = "SELECT bank_id FROM credit_request_entity ORDER BY created DESC";
-        return runner.query(conn, query, new ScalarHandler<>());
-    }
-
-    @SneakyThrows
-    public static String getLastOrderCreditId() {
-        val query = "SELECT credit_id FROM order_entity ORDER BY created DESC";
-        return runner.query(conn, query, new ScalarHandler<>());
+    public static String getCreditId() {
+        val id = "SELECT credit_id FROM order_entity ORDER BY created DESC";
+        return runner.query(conn, id, new ScalarHandler<>());
     }
 }

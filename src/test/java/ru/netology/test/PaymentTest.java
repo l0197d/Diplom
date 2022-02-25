@@ -12,11 +12,8 @@ import ru.netology.page.OrderPage;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static ru.netology.data.DbHelper.*;
 
 public class PaymentTest {
-
-    private int purchasePrice = 45000;
 
 
     @BeforeAll
@@ -45,10 +42,11 @@ public class PaymentTest {
         val paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.approved();
-        assertEquals("APPROVED", getLastPaymentStatus());
-        assertEquals(getLastOrderPaymentId(), getLastPaymentId());
-        assertEquals(purchasePrice, getLastPaymentAmount());
+        assertEquals("APPROVED",DbHelper.getPaymentStatus());
+        assertEquals(4500000, DbHelper.getPaymentAmount());
+        assertNull(DbHelper.getCreditId());
     }
+
 
     @Epic(value = "Functional Negative test")
     @Feature(value = "Невалидные значения")
@@ -60,8 +58,8 @@ public class PaymentTest {
         var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.declined();
-        assertEquals("DECLINED", DbHelper.getLastPaymentStatus());
-        assertNull(DbHelper.getLastOrderPaymentId());
+        assertEquals("DECLINED",DbHelper.getPaymentStatus());
+        assertNull(DbHelper.getCreditId());
     }
 
     @Epic(value = "Functional Negative test")

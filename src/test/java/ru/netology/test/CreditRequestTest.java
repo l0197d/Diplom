@@ -36,13 +36,12 @@ public class CreditRequestTest {
         // Тест номер 1
 
     void shouldPaymentApprovedCard() {
-        var cardInfo = new DataHelper().getValidCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getValidCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.approved();
-        assertEquals("APPROVED", new DbHelper().getLastCreditStatus());
-        assertEquals(4500000, new DbHelper().getLastPaymentAmount());
-        assertNull(new DbHelper().getLastCreditId());
+        assertEquals("APPROVED",DbHelper.getCreditRequestStatus());
+        assertNull(DbHelper.getCreditId());
     }
 
     @Epic(value = "Functional Negative test")
@@ -51,12 +50,12 @@ public class CreditRequestTest {
     @Test
 // Тест номер 2
     void shouldPaymentDeclinedCard() {
-        var cardInfo = new DataHelper().getValidCardInfo("declined");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getValidCardInfo("declined");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.declined();
-        assertEquals("DECLINED", new DbHelper().getLastPaymentAmount());
-        assertNull(new DbHelper().getLastCreditId());
+        assertEquals("DECLINED", DbHelper.getCreditRequestStatus());
+        assertNull(DbHelper.getCreditId());
     }
 
     @Epic(value = "Functional Negative test")
@@ -65,8 +64,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 3
     void shouldGetNotificationWrongNumberCard() {
-        var cardInfo = new DataHelper().getInvalidFormatCardInfo("4444 4444 4444 4443");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidFormatCardInfo("4444 4444 4444 4443");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.declined();
     }
@@ -77,8 +76,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 4
     void shouldGetInvalidName() {
-        var cardInfo = new DataHelper().getInvalidNameCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidNameCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongName();
     }
@@ -89,8 +88,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 5
     void shouldGetInvalidMonth() {
-        var cardInfo = new DataHelper().getInvalidMonthCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidMonthCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongMonth();
     }
@@ -101,8 +100,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 6
     void shouldGetInvalidYear() {
-        var cardInfo = new DataHelper().getInvalidYearCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidYearCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongYear();
     }
@@ -114,8 +113,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 7
     void shouldGetInvalidCVC() {
-        var cardInfo = new DataHelper().getInvalidCVCCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidCVCCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongCVC();
     }
@@ -127,8 +126,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 8
     void shouldGetInvalidMonthZero() {
-        var cardInfo = new DataHelper().getInvalidMonthZeroCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidMonthZeroCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongMonth();
     }
@@ -139,8 +138,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 9
     void shouldGetInvalidYearZero() {
-        var cardInfo = new DataHelper().getInvalidYearZeroCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidYearZeroCardInfo("approved");
+        var paymentPage =  OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongYear();
     }
@@ -151,8 +150,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 10
     void shouldGetInvalidCVCZero() {
-        var cardInfo = new DataHelper().getInvalidCVCZeroCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo =  DataHelper.getInvalidCVCZeroCardInfo("approved");
+        var paymentPage =  OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongCVC();
     }
@@ -163,8 +162,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 11
     void shouldGetNotificationZeroNumberCard() {
-        var cardInfo = new DataHelper().getInvalidFormatCardInfo("0000 0000 0000 0000");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo =  DataHelper.getInvalidFormatCardInfo("0000 0000 0000 0000");
+        var paymentPage =  OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongNumberCard();
     }
@@ -175,8 +174,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 12
     void shouldGetInvalidEmptyYear() {
-        var cardInfo = new DataHelper().getInvalidYearEmptyCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidYearEmptyCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.emptyField();
     }
@@ -188,8 +187,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 13
     void shouldGetInvalidEmptyCVC() {
-        var cardInfo = new DataHelper().getInvalidCVCEmptyCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo =  DataHelper.getInvalidCVCEmptyCardInfo("approved");
+        var paymentPage =  OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.emptyField();
     }
@@ -200,8 +199,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 14
     void shouldGetNotificationEmptyNumberCard() {
-        var cardInfo = new DataHelper().getInvalidFormatCardInfo("    ");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidFormatCardInfo("    ");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.emptyField();
     }
@@ -213,8 +212,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 15
     void shouldGetEmptyMonth() {
-        var cardInfo = new DataHelper().getInvalidMonthEmptyCardInfo("approved");
-        var paymentPage = new OrderPage().goToCredit();
+        var cardInfo = DataHelper.getInvalidMonthEmptyCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.emptyField();
     }
