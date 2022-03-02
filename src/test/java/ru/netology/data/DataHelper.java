@@ -25,11 +25,15 @@ public class DataHelper {
         String date = LocalDate.now().plusMonths(3).format(format);
         return date;
     }
+
+
     private static String generateFakeMonth() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM");
         String FakeDate = LocalDate.now().plusMonths(12).format(format);
         return FakeDate;
     }
+
+
 
     private static String generateYear() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yy");
@@ -38,7 +42,7 @@ public class DataHelper {
     }
     private static String generateFakeYear() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yy");
-        String FakeYear = LocalDate.now().plusMonths(8).format(format);
+        String FakeYear = LocalDate.now().plusYears(8).format(format);
         return FakeYear;
     }
 
@@ -66,7 +70,6 @@ public class DataHelper {
         String cvc;
     }
 
-    // раскидать на новые кейсы
     public static CardInfo getValidCardInfo(String card) {
         return new CardInfo(getCardNumber(card), generateMonth(), generateYear(), generateOwnerName(), generateCvc());
     }
