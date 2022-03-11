@@ -26,13 +26,13 @@ public class DataHelper {
         return date;
     }
 
-
+/*
     private static String generateFakeMonth() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM");
-        String FakeDate = LocalDate.now().plusMonths(12).format(format);
+        String FakeDate = LocalDate.now().plusMonths(44).format(format);
         return FakeDate;
     }
-
+*/
 
 
     private static String generateYear() {
@@ -40,12 +40,13 @@ public class DataHelper {
         String date = LocalDate.now().plusYears(3).format(format);
         return date;
     }
+    /*
     private static String generateFakeYear() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yy");
-        String FakeYear = LocalDate.now().plusYears(8).format(format);
+        String FakeYear = LocalDate.now().minusYears(8).format(format);
         return FakeYear;
     }
-
+*/
     private static String generateOwnerName() {
         String ownerName = faker.name().lastName().toUpperCase() + " " + faker.name().firstName().toUpperCase();
         return ownerName;
@@ -80,11 +81,11 @@ public class DataHelper {
     }
 
     public static CardInfo getInvalidMonthCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), generateFakeMonth(), generateYear(), generateOwnerName(), generateCvc());
+        return new CardInfo(getCardNumber(card), "44", generateYear(), generateOwnerName(), generateCvc());
     }
 
     public static CardInfo getInvalidYearCardInfo(String card) {
-        return new CardInfo(getCardNumber(card), generateMonth(), generateFakeYear(), generateOwnerName(), generateCvc());
+        return new CardInfo(getCardNumber(card), generateMonth(), "15", generateOwnerName(), generateCvc());
     }
 
     public static CardInfo getInvalidCVCCardInfo(String card) {
