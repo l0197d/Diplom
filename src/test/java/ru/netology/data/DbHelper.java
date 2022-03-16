@@ -6,57 +6,69 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
+import java.sql.SQLException;
 
 
-public class DbHelper {
-    private final static QueryRunner runner = new QueryRunner();
-    private static Properties prop = prop();
-    private static final Connection conn = getConnect();
+
+    public class DbHelper {
+        public static Connection getConnection() throws SQLException {
+            String url = System.getProperty("db.url");
+            String username = System.getProperty("db.user");
+            String password = System.getProperty("db.password");
+            try {
+                return DriverManager.getConnection(url, username, password);
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
+            return null;
+        }
 
 
-    private static Properties prop() {
-        Properties properties = new Properties();
-        try (InputStream is = DbHelper.class.getClassLoader().getResourceAsStream("application.properties")) {
-            properties.load(is);
-        } catch(IOException ex) { ex.printStackTrace(); }
-        return properties;
-    }
+        @SneakyThrows
+        public static void cleanDb() {
+            val deleteCreditRequest = "DELETE FROM credit_request_entity";
+            val deleteOrderEntity = "DELETE FROM order_entity";
+            val deletePaymentEntity = "DELETE FROM payment_entity";
+            val runner = new QueryRunner();
+            try (val conn = getConnection()
+            ) {
+                runner.update(conn, deleteCreditRequest);
+                runner.update(conn, deleteOrderEntity);
+                runner.update(conn, deletePaymentEntity);
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+        }
 
-    @SneakyThrows
-    private static Connection getConnect() {
-        return DriverManager.getConnection(
-                prop.getProperty("spring.datasource.url"),
-                prop.getProperty("spring.datasource.username"),
-                prop.getProperty("spring.datasource.password")
-        );
-    }
+        @SneakyThrows
+        public static String getPaymentEntity() {
+            try (val conn = getConnection();
+                 val countStmt = conn.createStatement()) {
+                val paymentStatus = "SELECT status FROM payment_entity ORDER BY created DESC LIMIT 1;";
+                val resultSet = countStmt.executeQuery(paymentStatus);
+                if (resultSet.next()) {
+                    return resultSet.getString("status");
+                }
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
+            return null;
+        }
 
-    @SneakyThrows
-    public static String getPaymentStatus() {
-        val status = "SELECT status FROM payment_entity ORDER BY created DESC";
-        return runner.query(conn, status, new ScalarHandler<>());
-    }
-
-    @SneakyThrows
-    public static Integer getPaymentAmount() {
-        val amount = "SELECT amount FROM payment_entity ORDER BY created DESC";
-        return runner.query(conn, amount, new ScalarHandler<>());
-    }
-
-    @SneakyThrows
-    public static String getCreditRequestStatus() {
-        val status = "SELECT status FROM credit_request_entity ORDER BY created DESC";
-        return runner.query(conn, status, new ScalarHandler<>());
-    }
-
-    @SneakyThrows
-    public static String getCreditId() {
-        val id = "SELECT credit_id FROM order_entity ORDER BY created DESC";
-        return runner.query(conn, id, new ScalarHandler<>());
-    }
+        @SneakyThrows
+        public static String getCreditEntity() {
+            try (val conn = getConnection();
+                 val countStmt = conn.createStatement()) {
+                val creditStatus = "SELECT status FROM credit_request_entity ORDER BY created DESC LIMIT 1;";
+                val resultSet = countStmt.executeQuery(creditStatus);
+                if (resultSet.next()) {
+                    return resultSet.getString("status");
+                }
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
+            return null;
+        }
 }

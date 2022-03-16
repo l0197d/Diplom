@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class DataHelper {
 
-    private static Faker faker = new Faker();
+    private static final Faker faker = new Faker();
     public static Faker fakerrus = new Faker(new Locale("ru"));
 
     private static String getCardNumber(String card) {
@@ -20,42 +20,21 @@ public class DataHelper {
         } else return card;
     }
 
-    private static String generateMonth() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM");
-        String date = LocalDate.now().plusMonths(3).format(format);
-        return date;
+    public static String generateMonth() {
+        return LocalDate.now().plusMonths(faker.number().numberBetween(1, 13)).format(DateTimeFormatter.ofPattern("MM"));
     }
 
-/*
-    private static String generateFakeMonth() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM");
-        String FakeDate = LocalDate.now().plusMonths(44).format(format);
-        return FakeDate;
+    public static String generateYear() {
+        return LocalDate.now().plusYears(faker.number().numberBetween(1, 4)).format(DateTimeFormatter.ofPattern("yy"));
     }
-*/
 
-
-    private static String generateYear() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yy");
-        String date = LocalDate.now().plusYears(3).format(format);
-        return date;
-    }
-    /*
-    private static String generateFakeYear() {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yy");
-        String FakeYear = LocalDate.now().minusYears(8).format(format);
-        return FakeYear;
-    }
-*/
     private static String generateOwnerName() {
-        String ownerName = faker.name().lastName().toUpperCase() + " " + faker.name().firstName().toUpperCase();
-        return ownerName;
+        return faker.name().lastName().toUpperCase() + " " + faker.name().firstName().toUpperCase();
     }
 
 
     private static String generateInvalidOwnerName() {
-        String ownerName = fakerrus.name().lastName().toUpperCase() + " " + fakerrus.name().firstName().toUpperCase();
-        return ownerName;
+        return fakerrus.name().lastName().toUpperCase() + " " + fakerrus.name().firstName().toUpperCase();
     }
 
     private static String generateCvc() {

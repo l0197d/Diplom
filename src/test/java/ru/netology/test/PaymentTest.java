@@ -3,7 +3,7 @@ package ru.netology.test;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.*;
 import io.qameta.allure.selenide.AllureSelenide;
-import lombok.val;
+
 import org.junit.jupiter.api.*;
 import ru.netology.data.DataHelper;
 import ru.netology.data.DbHelper;
@@ -11,7 +11,6 @@ import ru.netology.page.OrderPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PaymentTest {
 
@@ -29,6 +28,8 @@ public class PaymentTest {
     @AfterAll
     static void tearDownAll() {
         SelenideLogger.removeListener("allure");
+        DbHelper.cleanDb();
+
     }
 
     @Epic(value = "Functional Positive test")
@@ -38,13 +39,11 @@ public class PaymentTest {
         // Тест номер 1
 
     void shouldPaymentApprovedCard() {
-        val cardInfo =DataHelper.getValidCardInfo("approved");
-        val paymentPage = OrderPage.goToPayment();
+        var cardInfo = DataHelper.getValidCardInfo("approved");
+        var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.approved();
-        assertEquals("APPROVED",DbHelper.getPaymentStatus());
-        assertEquals(4500000, DbHelper.getPaymentAmount());
-        assertNull(DbHelper.getCreditId());
+        assertEquals("APPROVED", DbHelper.getPaymentEntity());
     }
 
 
@@ -58,9 +57,9 @@ public class PaymentTest {
         var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.declined();
-        assertEquals("DECLINED",DbHelper.getPaymentStatus());
-        assertNull(DbHelper.getCreditId());
+        assertEquals("DECLINED", DbHelper.getPaymentEntity());
     }
+
 
     @Epic(value = "Functional Negative test")
     @Feature(value = "Невалидные значения")
@@ -117,7 +116,7 @@ public class PaymentTest {
     @Test
 // Тест номер 7
     void shouldGetInvalidCVC() {
-        var cardInfo =  DataHelper.getInvalidCVCCardInfo("approved");
+        var cardInfo = DataHelper.getInvalidCVCCardInfo("approved");
         var paymentPage = OrderPage.goToPayment();
         paymentPage.payment(cardInfo);
         paymentPage.wrongCVC();

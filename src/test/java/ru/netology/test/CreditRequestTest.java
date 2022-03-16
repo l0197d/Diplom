@@ -10,7 +10,6 @@ import ru.netology.page.OrderPage;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class CreditRequestTest {
 
@@ -40,8 +39,7 @@ public class CreditRequestTest {
         var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.approved();
-        assertEquals("APPROVED",DbHelper.getCreditRequestStatus());
-        assertNull(DbHelper.getCreditId());
+        assertEquals("APPROVED", DbHelper.getPaymentEntity());
     }
 
     @Epic(value = "Functional Negative test")
@@ -54,8 +52,7 @@ public class CreditRequestTest {
         var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.declined();
-        assertEquals("DECLINED", DbHelper.getCreditRequestStatus());
-        assertNull(DbHelper.getCreditId());
+        assertEquals("DECLINED", DbHelper.getPaymentEntity());
     }
 
     @Epic(value = "Functional Negative test")
@@ -139,7 +136,7 @@ public class CreditRequestTest {
 // Тест номер 9
     void shouldGetInvalidYearZero() {
         var cardInfo = DataHelper.getInvalidYearZeroCardInfo("approved");
-        var paymentPage =  OrderPage.goToCredit();
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongYear();
     }
@@ -150,8 +147,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 10
     void shouldGetInvalidCVCZero() {
-        var cardInfo =  DataHelper.getInvalidCVCZeroCardInfo("approved");
-        var paymentPage =  OrderPage.goToCredit();
+        var cardInfo = DataHelper.getInvalidCVCZeroCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongCVC();
     }
@@ -162,8 +159,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 11
     void shouldGetNotificationZeroNumberCard() {
-        var cardInfo =  DataHelper.getInvalidFormatCardInfo("0000 0000 0000 0000");
-        var paymentPage =  OrderPage.goToCredit();
+        var cardInfo = DataHelper.getInvalidFormatCardInfo("0000 0000 0000 0000");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.wrongNumberCard();
     }
@@ -187,8 +184,8 @@ public class CreditRequestTest {
     @Test
 // Тест номер 13
     void shouldGetInvalidEmptyCVC() {
-        var cardInfo =  DataHelper.getInvalidCVCEmptyCardInfo("approved");
-        var paymentPage =  OrderPage.goToCredit();
+        var cardInfo = DataHelper.getInvalidCVCEmptyCardInfo("approved");
+        var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.emptyField();
     }
@@ -217,6 +214,5 @@ public class CreditRequestTest {
         paymentPage.credit(cardInfo);
         paymentPage.emptyField();
     }
-
 
 }

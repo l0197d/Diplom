@@ -31,7 +31,8 @@
 Для работы с базой PostgreSQL запустить приложение командой 'java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar
    '.
 3. Запустить автотесты командой './gradlew clean test' . 
-Для работы с базой PostgreSQL запустить автотесты командой './gradlew clean test -Ddb=jdbc:postgresql://localhost:5432/postgres   '.
+Для работы с базой PostgreSQL запустить автотесты командой './gradlew clean test 
+   -Ddb=jdbc:postgresql://localhost:5432/app   '.
 4. Для создания отчета Allure запустить команду './gradlew allureReport' и './gradlew allureServe'.
 
 

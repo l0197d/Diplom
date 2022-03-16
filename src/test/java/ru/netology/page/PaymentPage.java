@@ -1,6 +1,5 @@
 package ru.netology.page;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import ru.netology.data.DataHelper;
 
@@ -11,24 +10,24 @@ import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PaymentPage {
-    private SelenideElement heading = $$(".heading").find(exactText("Оплата по карте"));
-    private SelenideElement cardNumber = $(".input [placeholder='0000 0000 0000 0000']");
-    private SelenideElement month = $(".input [placeholder='08']");
-    private SelenideElement year = $(".input [placeholder='22']");
-    private SelenideElement fieldCardOwner = $$(".input__top").find(text("Владелец")).parent();
-    private SelenideElement cardOwner = fieldCardOwner.$(".input__control");
-    private SelenideElement cvc = $(".input [placeholder='999']");
-    private SelenideElement proceedButton = $(".form-field button");
-    private SelenideElement approvedNotification = $(".notification_status_ok");
-    private SelenideElement declinedNotification = $(".notification_status_error");
-    private SelenideElement wrongMonthError = $(withText("Неверно указан срок действия карты"));
-    private SelenideElement wrongYearError = $(withText("Истёк срок действия карты"));
-    private SelenideElement wrongNameError = $(withText("Неверно указано имя владельца карты"));
-    private SelenideElement emptyFieldError = $(withText("Поле обязательно для заполнения"));
-    private SelenideElement wrongCardNumberError = $(withText("Неверный формат"));
-    private SelenideElement wrongCVCError = $(withText("Неверный формат"));
+    private final SelenideElement heading = $$(".heading").find(exactText("Оплата по карте"));
+    private final SelenideElement cardNumber = $(".input [placeholder='0000 0000 0000 0000']");
+    private final SelenideElement month = $(".input [placeholder='08']");
+    private final SelenideElement year = $(".input [placeholder='22']");
+    private final SelenideElement fieldCardOwner = $$(".input__top").find(text("Владелец")).parent();
+    private final  SelenideElement cardOwner = fieldCardOwner.$(".input__control");
+    private final SelenideElement cvc = $(".input [placeholder='999']");
+    private final SelenideElement proceedButton = $(".form-field button");
+    private final SelenideElement approvedNotification = $(".notification_status_ok");
+    private final SelenideElement declinedNotification = $(".notification_status_error");
+    private final SelenideElement wrongMonthError = $(withText("Неверно указан срок действия карты"));
+    private final SelenideElement wrongYearError = $(withText("Истёк срок действия карты"));
+    private final SelenideElement wrongNameError = $(withText("Неверно указано имя владельца карты"));
+    private final SelenideElement emptyFieldError = $(withText("Поле обязательно для заполнения"));
+    private final SelenideElement wrongCardNumberError = $(withText("Неверный формат"));
+    private final SelenideElement wrongCVCError = $(withText("Неверный формат"));
 
-    private SelenideElement request = $(withText("Отправляем запрос"));
+    private final SelenideElement request = $(withText("Отправляем запрос"));
 
 
     public PaymentPage() {
@@ -51,7 +50,6 @@ public class PaymentPage {
     public void declined() {
         declinedNotification.shouldBe(visible, Duration.ofSeconds(15));
     }
-
 
     public void wrongMonth() {
         request.shouldNotBe(visible, Duration.ofSeconds(4));
