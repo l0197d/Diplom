@@ -39,7 +39,7 @@ public class CreditRequestTest {
         var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.approved();
-        assertEquals("APPROVED", DbHelper.getPaymentEntity());
+        assertEquals("APPROVED", DbHelper.getCreditEntity());
     }
 
     @Epic(value = "Functional Negative test")
@@ -52,7 +52,7 @@ public class CreditRequestTest {
         var paymentPage = OrderPage.goToCredit();
         paymentPage.credit(cardInfo);
         paymentPage.declined();
-        assertEquals("DECLINED", DbHelper.getPaymentEntity());
+        assertEquals("DECLINED", DbHelper.getCreditEntity());
     }
 
     @Epic(value = "Functional Negative test")

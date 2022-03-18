@@ -1,14 +1,13 @@
 version: '3.7'
 services:
   node:
-    image: node:16-alpine
-    user: "node"
+    image: node-app:1.0
+    build: ./gate-simulator
     ports:
-      - '9999:9999'
-    working_dir: /home/node/app
+        - '9999:9999'
     volumes:
-      - ./gate-simulator/:/home/node/app
-    command: "npm start"
+      - ./gate-simulator/node_modules/
+    container_name: node
 
   mysql:
     image: mysql:8.0
