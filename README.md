@@ -42,3 +42,5 @@
 версия Java: 11.0.9.1
 
 ## [Раздел с документацией](https://github.com/l0197d/Diplom/tree/master/docs)
+## [Отчет по тестированию](https://github.com/l0197d/Diplom/tree/master/docs/Report.md)
+## [Отчет по итогам автоматизации](https://github.com/l0197d/Diplom/tree/master/docs/Summary.md)

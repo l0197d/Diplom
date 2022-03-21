@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class CreditPage {
-    private final SelenideElement heading = $$(".heading").find(exactText("Оплата по карте"));
+    private final SelenideElement heading = $$(".heading").find(exactText("Кредит по данным карты"));
     private final SelenideElement cardNumberField = $(".input [placeholder='0000 0000 0000 0000']");
     private final SelenideElement monthField = $(".input [placeholder='08']");
     private final SelenideElement yearField  = $(".input [placeholder='22']");

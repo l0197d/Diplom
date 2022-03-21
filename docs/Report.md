@@ -4,7 +4,7 @@
 Были проверены front-end (работа и оформление сайта) и back-end (работа баз данных MySQL и PostgreSQL, корректность получения иобработки данных).
 В ходе тестирования было выполнено 30 тест-кейсов, из них только 53% успешных.Остальные 46% тестов были завершены с 
 ошибками.
-
+![](../../../Desktop/Screenshot_1.jpg)
 
 **CreditRequestTest**
 
@@ -21,7 +21,7 @@ shouldGetNotificationEmptyNumberCard()
 shouldGetNotificationZeroNumberCard()
 
 shouldPaymentDeclinedCard()
-
+![](../../../Desktop/Screenshot_2.jpg)
 
 **PaymentTest**
 
@@ -38,7 +38,7 @@ shouldGetNotificationEmptyNumberCard()
 shouldGetNotificationZeroNumberCard()
 
 shouldPaymentDeclinedCard()
-
+![](../../../Desktop/Screenshot_3.jpg)
 
 
 #### Общие рекомендации
